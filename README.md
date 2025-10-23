@@ -65,28 +65,36 @@ Purpose: Calculates a simple summation in a loop, deliberately creating a classi
 4- Sorting Test (SortingTest.asm):
 Purpose: Implements the Bubble Sort algorithm. This test subjects the processor to a high-stress, real-world scenario involving nested loops, intensive Memory Access (lw, sw), and frequent Conditional Branching. It serves as a final evaluation of overall pipeline performance and stability under heavy data and control flow pressure.
 
-### SortingTest.hex Example (Bubble Sort)
+##**Program 4: Bubble Sort Test**
 
-00080305
-00000045
-00010845
-000164d2
-00006085
-ffe20f10
-000103c5
-00af1080
-000f1140
-00af2900
-000002c5
-008b2940
-008b2100
-0000298e
-000021ce
-ffe63d52
-0006200f
-0007280f
-0006000d
+Below is the full **assembly code**, its **hexadecimal encoding**, and the **remarks** explaining each instruction’s purpose.  
+This program sorts an array stored in memory using the **Bubble Sort algorithm**.
 
-Each instruction represents a hexadecimal encoding of assembly instructions used for sorting an array in memory.
+| Assembly Instruction | Hex | Comment / Remark |
+|----------------------|------|------------------|
+| `addi R12, R0, 8` | `00080305` | Store number of elements minus one |
+| `addi R1, R0, 0` | `00000045` | Initialize loop index `i` to 0 |
+| `addi R1, R1, 1` | `00010845` | Increment index `i` after each iteration |
+| `blt R12, R1, end` | `000164d2` | Exit when `i` reaches the last element |
+| `addi R2, R12, 0` | `00006085` | Initialize inner loop counter with number of elements |
+| `beq R1, R2, loop1` | `ffe20f10` | If inner loop counter equals `i`, restart outer loop |
+| `addi R15, R0, 1` | `000103c5` | Load 1 into R15 (for subtraction) |
+| `sub R2, R2, R15` | `00af1080` | Decrement inner loop counter |
+| `sll R5, R2, R15` | `000f1140` | Compute address offset within the “array” |
+| `sub R4, R5, R15` | `00af2900` | Prepare address for next memory element |
+| `addi R11, R0, 0` | `000002c5` | Initialize temporary register R11 to 0 |
+| `add R5, R5, R11` | `008b2940` | Compute base memory address for R5 |
+| `add R4, R4, R11` | `008b2100` | Compute next memory address for R4 |
+| `lw R6, 0(R5)` | `0000298e` | Load first memory element into R6 |
+| `lw R7, 0(R4)` | `000021ce` | Load next memory element into R7 |
+| `blt R7, R6, loop2` | `ffe63d52` | If R7 < R6, skip swapping |
+| `sw R6, 0(R4)` | `0006200f` | Store first element into the second location |
+| `sw R7, 0(R5)` | `0007280f` | Store second element into the first location |
+| `jalr R0, R0, loop2` | `0006000d` | Jump back to inner loop to continue sorting |
+| `end:` | — | End of program |
+
+The corresponding `.hex` file (`SortingTest.hex`) can be loaded into ROM for automated execution.
+
+---
 
 This project is open-source for educational purposes under the MIT License.
