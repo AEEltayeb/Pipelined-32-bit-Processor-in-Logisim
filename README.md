@@ -53,10 +53,17 @@ The processor consists of several major components:
 
 ##  Test Programs
 Several test programs were created to validate the design:
-1. **Instruction Test** – Tests arithmetic, logic, and memory instructions.  
-2. **Bit Counter** – Counts number of 1s in a binary number.  
-3. **Loop and Hazard Test** – Validates hazard and forwarding units.  
-4. **Sorting Test** – Implements a Bubble Sort algorithm in machine code.
+1- Instruction Test (Test_Instructions.asm):
+Purpose: Comprehensive verification of all major instruction types (R-Type, I-Type, Memory, and Branch) including addi, slli, sub, mul, lw, sw, and all conditional branches (beq, blt, bgeu, etc.). Ensures the ALU, Register File, and Control Unit execute instructions correctly.
+
+2- Bit Counter (Counterfor11.asm):
+Purpose: Implements a Population Count (counting the number of '1' bits in a register). This test focuses on validating the correct execution of Shift (sra), Logical (andi), and Branch (beq, bne) instructions within a structured loop, exercising the Control Unit and Next PC logic.
+
+3- Loop and Hazard Test (Test_Loop&Hazard.asm):
+Purpose: Calculates a simple summation in a loop, deliberately creating a classic RAW (Read After Write) Data Hazard between consecutive addi and add instructions. This is the critical test for verifying the operational integrity of the Hazard Detection and Forwarding Unit.
+
+4- Sorting Test (SortingTest.asm):
+Purpose: Implements the Bubble Sort algorithm. This test subjects the processor to a high-stress, real-world scenario involving nested loops, intensive Memory Access (lw, sw), and frequent Conditional Branching. It serves as a final evaluation of overall pipeline performance and stability under heavy data and control flow pressure.
 
 ### SortingTest.hex Example (Bubble Sort)
 
